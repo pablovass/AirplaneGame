@@ -5,24 +5,32 @@ using UnityEngine;
 using  DG.Tweening;
 public class Fade : MonoBehaviour
 {
-   [SerializeField] private SpriteRenderer _spriteRenderer;
+   [SerializeField] SpriteRenderer spriteRenderer;
 
    [ContextMenu("FadeIn")]
    // de ser transparente a ser ocura
    public void FadeIn()
    {
-      _spriteRenderer.DOFade(1, 2);
+      spriteRenderer.DOFade(1, 2).OnComplete(() => {
+         Debug.Log("FadeIn Completo");
+      });
    }
    
    //de ser oscura a transparente
    [ContextMenu("FadeOut")]
    public void FadeOut()
    {
-      _spriteRenderer.DOFade(0, 2);
+      spriteRenderer.DOFade(0, 2).OnComplete(() => StartGame()).OnStart(() => { Debug.Log("FadeIniciado"); });
+   }
+
+   private void StartGame()
+   {
+      Debug.Log("Fade out completo");
    }
 
    private void Start()
    {
       FadeOut();
+    
    }
 }
